@@ -12,10 +12,10 @@ jobs:
     strategy:
       matrix:
        versions:
-         - IMAGE: wiremock/wiremock:nightly
+         - IMAGE: mmusenbr/wiremock:nightly
            CONTEXT: .
            PLATFORMS: linux/amd64,linux/arm64,linux/arm/v7
-         - IMAGE: wiremock/wiremock:nightly-alpine
+         - IMAGE: mmusenbr/wiremock:nightly-alpine
            CONTEXT: alpine
            PLATFORMS: linux/amd64
     steps:
@@ -49,7 +49,7 @@ jobs:
     - name: Login to Docker Hub
       uses: docker/login-action@v1
       with:
-        username: wiremock
+        username: mmusenbr
         password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
     - name: Build Wiremock Docker image
@@ -94,7 +94,7 @@ jobs:
 
     - name: Release if newer version
       run: |
-        CURRENT_VERSION=$(git -c 'versionsort.suffix=-' ls-remote --tags --sort='v:refname' https://github.com/wiremock/wiremock-docker.git '*.*.*' | tail -1 | cut -d '/' -f3)
+        CURRENT_VERSION=$(git -c 'versionsort.suffix=-' ls-remote --tags --sort='v:refname' https://github.com/mmusenbr/wiremock-docker.git '*.*.*' | tail -1 | cut -d '/' -f3)
         CURRENT_VERSION=${CURRENT_VERSION%-*}
         LATEST_VERSION=$(git -c 'versionsort.suffix=-' ls-remote --tags --sort='v:refname' https://github.com/wiremock/wiremock.git '*.*.*' | tail -1 | cut -d '/' -f3)
         if [ "$CURRENT_VERSION" != "$LATEST_VERSION" ]
@@ -111,13 +111,13 @@ jobs:
       matrix:
        versions:
          - IMAGES:
-            - wiremock/wiremock:latest
-            - wiremock/wiremock:${{ needs.check-new-version.outputs.new_version }}
+            - mmusenbr/wiremock:latest
+            - mmusenbr/wiremock:${{ needs.check-new-version.outputs.new_version }}
            CONTEXT: .
            PLATFORMS: linux/amd64,linux/arm64,linux/arm/v7
          - IMAGES:
-            - wiremock/wiremock:latest-alpine
-            - wiremock/wiremock:${{ needs.check-new-version.outputs.new_version }}-alpine
+            - mmusenbr/wiremock:latest-alpine
+            - mmusenbr/wiremock:${{ needs.check-new-version.outputs.new_version }}-alpine
            CONTEXT: alpine
            PLATFORMS: linux/amd64
     steps:
@@ -148,7 +148,7 @@ jobs:
     - name: Login to Docker Hub
       uses: docker/login-action@v1
       with:
-        username: wiremock
+        username: mmusenbr
         password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
     - name: Push Wiremock Docker image to Docker HUB
@@ -179,11 +179,11 @@ jobs:
         sed -i s/${LAST_VERSION}/${NEW_VERSION}/g Dockerfile alpine/Dockerfile
 
         # Push update
-        git config --local user.name "rodolpheche"
-        git config --local user.email "rodolphe.chaigneau@gmail.com"
+        git config --local user.name "Michael Musenbrock"
+        git config --local user.email "michael.musenbrock@gmail.com"
         git add .
         git commit -m "upgrade to version $NEW_VERSION"
-        git remote set-url origin https://${{ secrets.GITHUB_TOKEN }}@github.com/wiremock/wiremock-docker.git
+        git remote set-url origin https://${{ secrets.GITHUB_TOKEN }}@github.com/mmusenbr/wiremock-docker.git
         git push origin main
 
     - name: Release
@@ -197,8 +197,8 @@ jobs:
     # - name: Docker Hub Description
     #   uses: peter-evans/dockerhub-description@v2
     #   with:
-    #     username: wiremock
+    #     username: mmusenbr
     #     password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
-    #     repository: wiremock/wiremock
+    #     repository: mmusenbr/wiremock
     #     short-description: Official images for the WireMock standalone server
     #     readme-filepath: ./readme.md

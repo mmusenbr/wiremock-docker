@@ -1,22 +1,26 @@
 # Wiremock Docker
-[![Main](https://github.com/wiremock/wiremock-docker/actions/workflows/main.yml/badge.svg)](https://github.com/wiremock/wiremock-docker/actions/workflows/main.yml) [![Nightly](https://github.com/wiremock/wiremock-docker/actions/workflows/nightly.yml/badge.svg)](https://github.com/wiremock/wiremock-docker/actions/workflows/nightly.yml) [![Docker Pulls](https://img.shields.io/docker/pulls/wiremock/wiremock.svg)](https://hub.docker.com/r/wiremock/wiremock/)
+[![Main](https://github.com/mmusenbr/wiremock-docker/actions/workflows/main.yml/badge.svg)](https://github.com/mmusenbr/wiremock-docker/actions/workflows/main.yml) [![Nightly](https://github.com/mmusenbr/wiremock-docker/actions/workflows/nightly.yml/badge.svg)](https://github.com/mmusenbr/wiremock-docker/actions/workflows/nightly.yml) [![Docker Pulls](https://img.shields.io/docker/pulls/mmusenbr/wiremock.svg)](https://hub.docker.com/r/mmusenbr/wiremock/)
 
 > [Wiremock](http://wiremock.org) standalone HTTP server Docker image
+
+## Fork
+
+The image creation was forked from [wiremock/wiremock-docker](https://github.com/wiremock/wiremock-docker). The reason was to add support for newer Java versions in the images.
 
 ## Supported tags :
 
 ### Latest
 
-- `2.34.0`, `latest` [(2.34/Dockerfile)](https://github.com/wiremock/wiremock-docker/blob/2.34.0/Dockerfile)
-- `2.34.0-alpine`, `latest-alpine` [(2.34-alpine/Dockerfile)](https://github.com/wiremock/wiremock-docker/blob/2.34.0/alpine/Dockerfile)
-- `main` [(main/Dockerfile)](https://github.com/wiremock/wiremock-docker/blob/main/Dockerfile)
-- `main-alpine` [(main-alpine/Dockerfile)](https://github.com/wiremock/wiremock-docker/blob/main/alpine/Dockerfile)
-- `nightly` [(main/Dockerfile)](https://github.com/wiremock/wiremock-docker/blob/main/Dockerfile)
-- `nightly-alpine` [(main-alpine/Dockerfile)](https://github.com/wiremock/wiremock-docker/blob/main/alpine/Dockerfile)
+- `2.34.0`, `latest` [(2.34/Dockerfile)](https://github.com/mmusenbr/wiremock-docker/blob/2.34.0/Dockerfile)
+- `2.34.0-alpine`, `latest-alpine` [(2.34-alpine/Dockerfile)](https://github.com/mmusenbr/wiremock-docker/blob/2.34.0/alpine/Dockerfile)
+- `main` [(main/Dockerfile)](https://github.com/mmusenbr/wiremock-docker/blob/main/Dockerfile)
+- `main-alpine` [(main-alpine/Dockerfile)](https://github.com/mmusenbr/wiremock-docker/blob/main/alpine/Dockerfile)
+- `nightly` [(main/Dockerfile)](https://github.com/mmusenbr/wiremock-docker/blob/main/Dockerfile)
+- `nightly-alpine` [(main-alpine/Dockerfile)](https://github.com/mmusenbr/wiremock-docker/blob/main/alpine/Dockerfile)
 
 ### Complete list
 
-[Tags](https://hub.docker.com/r/wiremock/wiremock/tags/)
+[Tags](https://hub.docker.com/r/mmusenbr/wiremock/tags/)
 
 ## The image includes
 
@@ -35,13 +39,13 @@
 ##### Pull latest image
 
 ```sh
-docker pull wiremock/wiremock
+docker pull mmusenbr/wiremock
 ```
 
 ##### Start a Wiremock container
 
 ```sh
-docker run -it --rm -p 8080:8080 wiremock/wiremock
+docker run -it --rm -p 8080:8080 mmusenbr/wiremock
 ```
 
 > Access [http://localhost:8080/__admin](http://localhost:8080/__admin) to display the mappings (empty set)
@@ -51,7 +55,7 @@ docker run -it --rm -p 8080:8080 wiremock/wiremock
 To start with these Wiremock arguments : `--https-port 8443 --verbose`
 
 ```sh
-docker run -it --rm -p 8443:8443 wiremock/wiremock --https-port 8443 --verbose
+docker run -it --rm -p 8443:8443 mmusenbr/wiremock --https-port 8443 --verbose
 ```
 
 > Access [https://localhost:8443/__admin](https://localhost:8443/__admin) to check https working
@@ -66,7 +70,7 @@ docker run -d --name wiremock-container \
   -p 8080:8080 \
   -v $PWD/test:/home/wiremock \
   -e uid=$(id -u) \
-  wiremock/wiremock \
+  mmusenbr/wiremock \
     --proxy-all="http://registry.hub.docker.com" \
     --record-mappings --verbose
 curl http://localhost:8080
@@ -84,7 +88,7 @@ docker run -d --name wiremock-container \
   -p 8080:8080 \
   -v $PWD/test:/home/wiremock \
   -u $(id -u):$(id -g) \
-  wiremock/wiremock \
+  mmusenbr/wiremock \
     --proxy-all="http://registry.hub.docker.com" \
     --record-mappings --verbose
 curl http://localhost:8080
@@ -100,17 +104,17 @@ docker rm -f wiremock-container
 ###### Inline
 
 ```sh
-git clone https://github.com/wiremock/wiremock-docker.git
+git clone https://github.com/mmusenbr/wiremock-docker.git
 docker run -it --rm \
   -p 8080:8080 \
   -v $PWD/wiremock-docker/samples/hello/stubs:/home/wiremock \
-  wiremock/wiremock
+  mmusenbr/wiremock
 ```
 
 ###### Dockerfile
 
 ```sh
-git clone https://github.com/wiremock/wiremock-docker.git
+git clone https://github.com/mmusenbr/wiremock-docker.git
 docker build -t wiremock-hello wiremock-docker/samples/hello
 docker run -it --rm -p 8080:8080 wiremock-hello
 ```
@@ -122,7 +126,7 @@ docker run -it --rm -p 8080:8080 wiremock-hello
 ###### Inline
 
 ```sh
-git clone https://github.com/wiremock/wiremock-docker.git
+git clone https://github.com/mmusenbr/wiremock-docker.git
 # prepare extension folder
 mkdir wiremock-docker/samples/random/extensions
 # download extension
@@ -133,14 +137,14 @@ docker run -it --rm \
   -p 8080:8080 \
   -v $PWD/wiremock-docker/samples/random/stubs:/home/wiremock \
   -v $PWD/wiremock-docker/samples/random/extensions:/var/wiremock/extensions \
-  wiremock/wiremock \
+  mmusenbr/wiremock \
     --extensions com.opentable.extension.BodyTransformer
 ```
 
 ###### Dockerfile
 
 ```sh
-git clone https://github.com/wiremock/wiremock-docker.git
+git clone https://github.com/mmusenbr/wiremock-docker.git
 docker build -t wiremock-random wiremock-docker/samples/random
 docker run -it --rm -p 8080:8080 wiremock-random
 ```

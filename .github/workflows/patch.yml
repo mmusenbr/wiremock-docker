@@ -14,13 +14,13 @@ jobs:
       matrix:
        versions:
          - IMAGES:
-            - wiremock/wiremock:latest
-            - wiremock/wiremock:${{ github.event.inputs.tag }}
+            - mmusenbr/wiremock:latest
+            - mmusenbr/wiremock:${{ github.event.inputs.tag }}
            CONTEXT: .
            PLATFORMS: linux/amd64,linux/arm64,linux/arm/v7
          - IMAGES:
-            - wiremock/wiremock:latest-alpine
-            - wiremock/wiremock:${{ github.event.inputs.tag }}-alpine
+            - mmusenbr/wiremock:latest-alpine
+            - mmusenbr/wiremock:${{ github.event.inputs.tag }}-alpine
            CONTEXT: alpine
            PLATFORMS: linux/amd64
     steps:
@@ -41,7 +41,7 @@ jobs:
     - name: Login to Docker Hub
       uses: docker/login-action@v1
       with:
-        username: wiremock
+        username: mmusenbr
         password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
     - name: Push Wiremock Docker image to Docker HUB
@@ -65,11 +65,11 @@ jobs:
         NEW_MINOR_VERSION=${NEW_VERSION%.*}
         sed -i s/${LAST_VERSION}/${NEW_VERSION}/g readme.md
         sed -i s/${LAST_MINOR_VERSION}/${NEW_MINOR_VERSION}/g readme.md
-        git config --local user.name "rodolpheche"
-        git config --local user.email "rodolphe.chaigneau@gmail.com"
+        git config --local user.name "Michael Musenbrock"
+        git config --local user.email "michael.musenbrock@gmail.com"
         git add .
         git commit -m "upgrade to version $NEW_VERSION"
-        git remote set-url origin https://${{ secrets.GITHUB_TOKEN }}@github.com/wiremock/wiremock-docker.git
+        git remote set-url origin https://${{ secrets.GITHUB_TOKEN }}@github.com/mmusenbr/wiremock-docker.git
         git push origin main
 
     - name: Release
