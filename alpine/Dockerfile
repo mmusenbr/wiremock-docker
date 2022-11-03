@@ -2,7 +2,7 @@ FROM eclipse-temurin:17-jre-alpine
 
 LABEL maintainer="Rodolphe CHAIGNEAU <rodolphe.chaigneau@gmail.com>"
 
-ENV WIREMOCK_VERSION 2.34.0
+ENV WIREMOCK_VERSION 2.35.0
 
 RUN apk add --update openssl
 
